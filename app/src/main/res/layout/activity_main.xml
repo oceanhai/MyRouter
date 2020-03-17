@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="基础功能--------------------------------------------------"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/your_ac_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="应用内界面跳转"/>
+        <Button
+            android:id="@+id/test2_ac_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="应用内:跳转界面销毁后返回结果"/>
+        <Button
+            android:id="@+id/getFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取Fragment实例"/>
+        <Button
+            android:id="@+id/normalNavigationWithParams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="携带参数的应用内跳转"/>
+        <Button
+            android:id="@+id/oldVersionAnim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="旧版本转场动画"/>
+        <Button
+            android:id="@+id/newVersionAnim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新版本转场动画"/>
+        <Button
+            android:id="@+id/goToTest1Ac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="应用内没有test1的页面也能跳转？"/>
+
+        <TextView
+            android:text="进阶用法--------------------------------------------------"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/navByUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="通过URL跳转"/>
+        <Button
+            android:id="@+id/interceptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拦截器测试"/>
+        <Button
+            android:id="@+id/autoInject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="依赖注入(参照代码)"/>
+    </LinearLayout>
+
+</ScrollView>
