@@ -1,5 +1,6 @@
 package com.wuhai.myrouter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -26,10 +27,14 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activity = this;
 
         findViewById(R.id.your_ac_btn).setOnClickListener(this);
         findViewById(R.id.test2_ac_btn).setOnClickListener(this);
@@ -45,12 +50,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.autoInject).setOnClickListener(this);
     }
 
+    public static Activity getThis() {
+        return activity;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.your_ac_btn://应用内ac 跳转
+                //不指定分组，默认
+                //@Route(path = "/test/activity")
+//                ARouter.getInstance()
+//                        .build("/test/activity")
+//                        .navigation();
+
+                //指定分组
+                //@Route(path = "/test/activity", group = "app")
                 ARouter.getInstance()
-                        .build("/test/activity")
+                        .build("/test/activity", "app")
                         .navigation();
                 break;
             case R.id.test2_ac_btn://应用内:跳转界面销毁后返回结果
@@ -134,24 +151,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              * ③有Test1Activity，有SchemeFilterActivity及清单内注册,有ARouter demo
              * TODO 不能正常跳转到自己的Test1Activity页面，而是跳到了ARouter demo的Test1Activity,怪了！！！
              */
-            case R.id.navByUrl://通过URL跳转
+            case R.id.navByUrl://通过URL跳转  TODO 这块路径重复会有问题感觉？！
                 ARouter.getInstance()
                         .build("/test/webview")
                         .withString("url", "file:///android_asset/scheme-test.html")
                         .navigation();
                 break;
-            case R.id.interceptor://拦截器测试
+            case R.id.interceptor://拦截器测试 TODO 必须实现Test1Interceptor，才有拦截效果
                 ARouter.getInstance()
                         .build("/test/activity4")
                         .navigation(this, new NavCallback() {
                             @Override
-                            public void onArrival(Postcard postcard) {
+                            public void onFound(Postcard postcard) {
+                                super.onFound(postcard);
+                                //找到目标时回调   和onLost执行是排他的，也就是onFound了就不会出现onLost，onLost就不会出现onFound
+                                Log.e(BaseApplication.TAG, "onFound postcard="+postcard.toString());
+                            }
 
+                            @Override
+                            public void onLost(Postcard postcard) {
+                                super.onLost(postcard);
+                                //迷路后回拨
+                                Log.e(BaseApplication.TAG, "onLost postcard="+postcard.toString());
+                            }
+
+                            @Override
+                            public void onArrival(Postcard postcard) {
+                                //导航后回调
+                                Log.e(BaseApplication.TAG, "onArrival postcard="+postcard.toString());
                             }
 
                             @Override
                             public void onInterrupt(Postcard postcard) {
-                                Log.d(BaseApplication.TAG, "被拦截了");
+                                //中断时回调
+                                Log.d(BaseApplication.TAG, "onInterrupt 被拦截了");
                             }
                         });
                 break;

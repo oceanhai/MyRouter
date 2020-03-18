@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.wuhai.myrouter.BaseApplication;
 
 /**
  * TODO feature
@@ -33,6 +34,6 @@ public class HelloServiceImpl implements HelloService {
     @Override
     public void init(Context context) {
         mContext = context;
-        Log.e("testService", HelloService.class.getName() + " has init.");
+        Log.e(BaseApplication.TAG, "IProvider 服务 "+HelloService.class.getName() + " has init.");
     }
 }

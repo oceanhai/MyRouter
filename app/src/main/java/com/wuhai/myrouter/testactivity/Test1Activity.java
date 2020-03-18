@@ -76,8 +76,24 @@ public class Test1Activity extends AppCompatActivity {
     @Autowired
     String url;
 
+    /**
+     * ----------------------------------------------------
+     * 对应中文文档
+     * 四、进阶用法   8.通过依赖注入解耦:服务管理(二) 发现服务
+     */
     @Autowired
     HelloService helloService;
+
+    @Autowired(name = "/yourservicegroupname/hello")
+    HelloService helloService2;
+
+    HelloService helloService3;
+
+    HelloService helloService4;
+    /**
+     * ----------------------------------------------------
+     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +129,17 @@ public class Test1Activity extends AppCompatActivity {
                 objList,
                 map
         );
-        helloService.sayHello("Hello moto.");
+
+        // 1. (推荐)使用依赖注入的方式发现服务,通过注解标注字段,即可使用，无需主动获取
+        // Autowired注解中标注name之后，将会使用byName的方式注入对应的字段，不设置name属性，
+        // 会默认使用byType的方式发现服务(当同一接口有多个实现的时候，必须使用byName的方式发现服务)
+//        helloService.sayHello("helloService");
+//        helloService2.sayHello("helloService2");
+        // 2. 使用依赖查找的方式发现服务，主动去发现服务并使用，下面两种方式分别是byName和byType
+//        helloService3 = ARouter.getInstance().navigation(HelloService.class);
+        helloService4 = (HelloService) ARouter.getInstance().build("/yourservicegroupname/hello").navigation();
+//        helloService3.sayHello("helloService3");
+        helloService4.sayHello("helloService4");
 
         ((TextView) findViewById(R.id.test)).setText("I am " + Test1Activity.class.getName());
         ((TextView) findViewById(R.id.test2)).setText(params);
