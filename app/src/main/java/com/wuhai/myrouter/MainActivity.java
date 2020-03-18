@@ -251,6 +251,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .build("/module/2", "m2")
                         .navigation();
                 break;
+            case R.id.failNav://跳转失败，单独降级   TODO 单独降级是啥意思？
+                ARouter.getInstance().build("/xxx/xxx").navigation(this, new NavCallback() {
+                    @Override
+                    public void onFound(Postcard postcard) {
+                        Log.d(BaseApplication.TAG, "failNav 找到了");
+                    }
+
+                    @Override
+                    public void onLost(Postcard postcard) {
+                        Log.d(BaseApplication.TAG, "failNav 找不到了");
+                    }
+
+                    @Override
+                    public void onArrival(Postcard postcard) {
+                        Log.d(BaseApplication.TAG, "failNav 跳转完了");
+                    }
+
+                    @Override
+                    public void onInterrupt(Postcard postcard) {
+                        Log.d(BaseApplication.TAG, "failNav 被拦截了");
+                    }
+                });
+                break;
+            case R.id.failNav2://跳转失败，全局降级  TODO 全局降级 啥意思？
+                ARouter.getInstance().build("/xxx/xxx").navigation();
+                break;
+            case R.id.failNav3://服务调用失败
+                ARouter.getInstance().navigation(MainActivity.class);
+                break;
         }
     }
 
