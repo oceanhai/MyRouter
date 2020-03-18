@@ -19,6 +19,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.wuhai.myrouter.testinject.TestObj;
 import com.wuhai.myrouter.testinject.TestParcelable;
 import com.wuhai.myrouter.testinject.TestSerializable;
+import com.wuhai.myrouter.testservice.HelloService;
+import com.wuhai.myrouter.testservice.SingleService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.navByUrl).setOnClickListener(this);
         findViewById(R.id.interceptor).setOnClickListener(this);
         findViewById(R.id.autoInject).setOnClickListener(this);
+
+        findViewById(R.id.navByName).setOnClickListener(this);
+        findViewById(R.id.navByType).setOnClickListener(this);
+        findViewById(R.id.callSingle).setOnClickListener(this);
     }
 
     public static Activity getThis() {
@@ -209,6 +215,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .withObject("obj", testObj)
                         .withObject("objList", objList)
                         .withObject("map", map)
+                        .navigation();
+                break;
+            case R.id.navByName://ByName调用服务
+                ((HelloService)ARouter.getInstance()
+                        .build("/yourservicegroupname/hello")
+                        .navigation())
+                        .sayHello("ByName调用服务");
+                break;
+            case R.id.navByType://ByType调用服务
+                //多继承的时候 居然 调用的hello2
+//                ARouter.getInstance().navigation(HelloService.class).sayHello("ByType调用服务");
+
+                //TODO err java.lang.NullPointerException: Attempt to invoke virtual method 'void com.wuhai.myrouter.testservice.HelloServiceImpl.sayHello(java.lang.String)' on a null object reference
+                //看来这样是不可以的
+//                ARouter.getInstance().navigation(HelloServiceImpl.class).sayHello("ByType调用服务");
+
+                //只能通过ByName 来区分调用
+                ((HelloService)ARouter.getInstance()
+                        .build("/yourservicegroupname/hello2")
+                        .navigation())
+                        .sayHello("ByName调用服务");
+                break;
+            case R.id.callSingle://调用单类  TODO 单类，上面的可以多继承，多继承的时候貌似只能ByName 区分
+                ARouter.getInstance().navigation(SingleService.class).sayHello("调用单类");
+                break;
+            case R.id.navToMoudle1://跳转到模块1
+                ARouter.getInstance()
+                        .build("/module/1")
+                        .navigation();
+                break;
+            case R.id.navToMoudle2://跳转到模块2
+                // 这个页面主动指定了Group名
+                ARouter.getInstance()
+                        .build("/module/2", "m2")
                         .navigation();
                 break;
         }

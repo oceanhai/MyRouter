@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wuhai.module1" >
+
+    <application>
+        <activity android:name=".TestModuleActivity"></activity>
+        <activity android:name=".TestModule2Activity"></activity>
+    </application>
+
+</manifest>
