@@ -42,8 +42,10 @@ dependencies {
     // 替换成最新版本, 需要注意的是api
     // 要与compiler匹配使用，均使用最新版可以保证兼容
     implementation 'com.alibaba:arouter-api:1.5.0'
+//    implementation project(':arouter-api') //TODO 依赖纯module怎么就实现不了路由效果了呢？
     //annotationProcessor 对应以前的apt依赖
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+//    annotationProcessor project(':arouter-compiler')
 
     implementation 'com.alibaba:fastjson:1.2.48'
 

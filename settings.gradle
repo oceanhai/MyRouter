@@ -1,2 +1,6 @@
-include ':app', ':module-java', ':module-java2', ':arouter-compiler', ':arouter-api'
+include ':app',
+        ':module-java',
+        ':module-java2',
+        ':arouter-compiler',
+        ':arouter-api',
 rootProject.name='MyRouter'
