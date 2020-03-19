@@ -1,42 +1,41 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
+
     defaultConfig {
-        applicationId "com.wuhai.myrouter"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // 更新 build.gradle, 添加参数 AROUTER_GENERATE_DOC = enable
-        // 生成的文档路径 : build/generated/source/apt/(debug or release)/com/alibaba/android/
-        //               arouter/docs/arouter-map-of-${moduleName}.json
-        //TODO 如何生成文档？我怎么没在路径中找到这个文档呢
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
         javaCompileOptions {
             annotationProcessorOptions {
-//                arguments = [AROUTER_MODULE_NAME: project.getName()]
-                arguments = [AROUTER_MODULE_NAME: project.getName(), AROUTER_GENERATE_DOC: "enable"]
+                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
             }
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // 替换成最新版本, 需要注意的是api
@@ -44,10 +43,4 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.5.0'
     //annotationProcessor 对应以前的apt依赖
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
-
-    implementation 'com.alibaba:fastjson:1.2.48'
-
-    //子module
-    implementation project(':module-java')
-    implementation project(':module-java2')
 }
